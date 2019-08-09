@@ -29,3 +29,6 @@ Route::get('/panel/cars/delete/{car}', 'CarController@delete')->name('cars.delet
 
 Route::resource('/panel/cars','CarController', [
 ])->middleware('auth');;
+
+Route::resource('/panel/autoparts','AutopartController', [
+])->middleware('auth');;
