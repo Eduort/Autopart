@@ -16,7 +16,7 @@ class AutopartController extends Controller
     {
         //
 
-        return view('panel/atuparts/index');
+        return view('panel/autoparts/index');
     }
 
     /**
@@ -27,7 +27,7 @@ class AutopartController extends Controller
     public function create()
     {
         //
-        return view('panel/atuparts/create');
+        return view('panel/autoparts/create');
     }
 
     /**
@@ -62,7 +62,7 @@ class AutopartController extends Controller
     public function edit(Autopart $autopart)
     {
         //
-        return view('panel/atuparts/edit');
+        return view('panel/autoparts/edit');
     }
 
     /**
