@@ -43,17 +43,17 @@ class AutopartController extends Controller
     {
         //Se validan los campos del formulario.
         $this->validate($request, [
-            'brand' => 'required',
-            'año' => 'required|digits:4',
-            'precio' => 'required|numeric',
-            'autopart_category' => 'required',
-            'modelo' => 'required',
-            'quantity' => 'required',
-            'vendedor' => 'required',
-            'telefono' => 'numeric',
-            'state' => 'required|numeric',
-            'reduction'=>'required|numeric',
-            'descripcion' => 'required',
+            'brand' => 'required', //Check
+            'año' => 'required|digits:4', //Check
+            'precio' => 'required|numeric', //Check
+            'autopart_category' => 'required', //Check
+            'modelo' => 'required', //Check
+            'quantity' => 'required', //
+            'vendedor' => 'required', //Check
+            'telefono' => 'numeric', //Check
+            'state' => 'required|numeric', //Check
+            'reduction'=>'required|numeric', //Check
+            'descripcion' => 'required', //Check
         ]);
 
         //Se crea el objeto principal producto 
