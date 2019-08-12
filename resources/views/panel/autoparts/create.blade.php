@@ -37,9 +37,11 @@
                 </div>
                 <div class="form-group">
                     <label for="cantidad"></label>
-                    @for ($i = 0; $i <= 99; $i++)
-                        <option value="{{$i}}">$i</option>
-                    @endfor
+                    <select name="quantity" id="cantidad">
+                        @for ($i = 0; $i <= 99; $i++)
+                            <option value="{{$i}}">$i</option>
+                        @endfor
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="model">Modelo:</label>
