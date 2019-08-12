@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Autopart;
 use Illuminate\Http\Request;
+use App\Brand;
+use App\Product; 
 
 class AutopartController extends Controller
 {
