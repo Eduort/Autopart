@@ -47,8 +47,7 @@ class CarController extends Controller
      */
     public function store(Request $request)
     {
-
-        return $request;
+        
         //Se validan los campos del formulario.
         $this->validate($request, [
             'brand' => 'required',
