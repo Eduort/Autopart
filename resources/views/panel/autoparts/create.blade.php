@@ -32,14 +32,10 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="category">Categoria</label>
-                    <input type="text" class="form-control" id="category" name="autopart_category" placeholder="Categoría" value="{{old('autopart_category')}}">
-                </div>
-                <div class="form-group">
                     <label for="cantidad"></label>
                     <select name="quantity" id="cantidad">
                         @for ($i = 0; $i <= 99; $i++)
-                            <option value="{{$i}}">$i</option>
+                            <option value="{{$i}}">{{$i}}</option>
                         @endfor
                     </select>
                 </div>
@@ -63,10 +59,14 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="sell_parts" >Venta Partes:</label>
-                    <select id="sell_parts" name="sell_parts" class="form-control">
-                        <option value="0">No</option>
-                        <option value="1">Si</option>
+                    <label for="autopart_category" >Venta Partes:</label>
+                    <select id="autopart_category" name="autopart_category" class="form-control">
+                        <option value="0">Espejos</option>
+                        <option value="1">Motor</option>
+                        <option value="2">Parabrisas</option>
+                        <option value="3">Electrónicos</option>
+                        <option value="4">Interiores</option>
+                        <option value="5">Sistemas de Transmisión</option>
                     </select>
                 </div>
                 <div class="form-group">
