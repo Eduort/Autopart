@@ -19,13 +19,27 @@
     <h3>Alta de Parte</h3>
 
     <!-- Formulario con campos requeridos -->
-    <form method="POST" action="{{route('cars.store')}}" enctype="multipart/form-data">
+    <form method="POST" action="{{route('autoparts.store')}}" enctype="multipart/form-data">
         {{csrf_field()}}
         <div class="row">
             <div class="col-md-4">
                 <div class="form-group">
-                    <label for="brand_id">Categoria:</label>
-                    <input type="text" class="form-control" id="category" name="categoria" placeholder="Categoria" value="{{old('modelo')}}">
+                    <label for="brand_id">Marca:</label>
+                    <select id="brand_id" class="form-control" name="brand">
+                        @foreach($brands as $brand)
+                            <option value="{{$brand->id}}">{{$brand->name}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="category">Categoria</label>
+                    <input type="text" class="form-control" id="category" name="autopart_category" placeholder="Categoría" value="{{old('autopart_category')}}">
+                </div>
+                <div class="form-group">
+                    <label for="cantidad"></label>
+                    @for ($i = 0; $i <= 99; $i++)
+                        <option value="{{$i}}">$i</option>
+                    @endfor
                 </div>
                 <div class="form-group">
                     <label for="model">Modelo:</label>
@@ -40,10 +54,10 @@
                     <input type="text" class="form-control" id="price" name="precio" placeholder="Precio" value="{{old('precio')}}">
                 </div>
                 <div class="form-group">
-                    <label for="works">Funciona:</label>
-                    <select id="works" name="works" class="form-control" value="{{old('works')}}">
-                        <option value="0">No</option>
-                        <option value="1">Si</option>
+                    <label for="estado">Estado:</label>
+                    <select id="estado" name="state" class="form-control" value="{{old('state')}}">
+                        <option value="0">Nuevo</option>
+                        <option value="1">Usado</option>
                     </select>
                 </div>
                 <div class="form-group">
@@ -54,6 +68,10 @@
                     </select>
                 </div>
                 <div class="form-group">
+                    <label for="reduccion">Reduccion del Costo del Automovil</label>
+                    <input type="text" class="form-control" placeholder="Reduccion del Precio" value="{{old('reduction')}}">    
+                </div>
+                <div class="form-group">
                     <label for="seller">Vendedor:</label>
                     <input type="text" class="form-control" id="seller" name="vendedor" placeholder="Vendedor" value="{{old('vendedor')}}">
                 </div>
@@ -61,26 +79,10 @@
                     <label for="phone">Telefono:</label>
                     <input type="text" class="form-control" id="phone" name="telefono" placeholder="Telefono" value="{{old('telefono')}}">
                 </div>
-                <div class="form-check">
-                    <input type="checkbox" class="form-check-input" id="parts" name="parts">
-                    <label class="form-check-label" for="parts">Registrar partes al finalizar</label>
-                </div>
             </div>
             <div class="col-md-8">
                 <label for="description">Descripción:</label>
                 <textarea class="form-control rounded-0" id="description" name="descripcion" rows="11" placeholder="En esta sección puede añadir datos adicionales como el tipo de transmisión, kilometraje, número de dueños que ha tenido, etc.">{{old('description')}}</textarea>
-
-                <div style="margin-top: 20px">
-                    <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="customFile" name="imagen" accept=".jpg,.png" >
-                        <label class="custom-file-label" for="customFile">Seleccionar Imagen</label>
-                    </div>
-                </div>
-
-                <div style="text-align: center;margin-top: 10px">
-                    <img src="{{URL::asset('images/waiting.png')}}" id="profile-img-tag" height="320px" />
-                </div>
-
             </div>
         </div>
 
