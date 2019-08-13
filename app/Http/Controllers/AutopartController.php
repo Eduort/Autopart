@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Autopart;
 use Illuminate\Http\Request;
 use App\Brand;
-use App\Product; 
+use App\Product;
+use Illuminate\Support\Facades\Auth;
 
 class AutopartController extends Controller
 {
@@ -20,7 +21,7 @@ class AutopartController extends Controller
         $validAutoparts = Product::where('approved', '=', 1)->where('productable_type', '=', 'App\Autopart')->pluck('productable_id'); 
         
         $autoParts = Autopart::whereIn('id',$validAutoparts)->get();
-        return view('panel/autoparts/index', compact('autoparts', $autoParts));
+        return view('panel/autoparts/index', compact('autoParts', $autoParts));
     }
 
     /**
@@ -54,7 +55,6 @@ class AutopartController extends Controller
             'vendedor' => 'required', //Check
             'telefono' => 'numeric', //Check
             'state' => 'required|numeric', //Check
-            'reduction'=>'required|numeric', //Check
             'descripcion' => 'required', //Check
         ]);
 
@@ -81,10 +81,10 @@ class AutopartController extends Controller
 
         //Se crea el objeto autoparte.
         $autopartObject = Autopart::create([
-            'autopart_category'=>request('category'),
+            'autopart_category'=>request('autopart_category'),
             'quantity'=>request('quantity'),
             'state'=>request('state'),
-            'car_price_reduction_on_sale'=>request('reduction')
+            'car_price_reduction_on_sale'=>0
         ]);
 
         $autopartObject->product_data()->save($product);
@@ -99,16 +99,8 @@ class AutopartController extends Controller
                 {
                     session()->flash('status', 'La Autoparte no se ha registrado, se publicara cuando sea aprobado por un administrador.');
                 }
-        
-        
-                if(request('parts')=="on")
-                {
-                    return redirect('/panel/autoparts/create');
-                }
-                else
-                {
-                    return redirect('/panel/cars');
-                }
+
+        return redirect('/panel/autoparts');
     }
 
     /**
@@ -161,7 +153,6 @@ class AutopartController extends Controller
             'vendedor' => 'required',
             'telefono' => 'numeric',
             'state' => 'required|numeric',
-            'reduction'=>'required|numeric',
             'descripcion' => 'required',
         ]);
 
@@ -176,12 +167,13 @@ class AutopartController extends Controller
         $prudct->price = request('precio');
         $prudct->save();
 
-        $prudct->autopart_category=request('category');
-        $prudct->quantity=request('quantity');
-        $prudct->state=request('state');
-        $prudct->car_price_reduction_on_sale=require('reduction');
-        $prudct->save();
+        $autopart->autopart_category=request('autopart_category');
+        $autopart->quantity=request('quantity');
+        $autopart->state=request('state');
+        $autopart->save();
 
+        session()->flash('status', 'La autoparte ha sido actualizada correctamente');
+        return redirect('/panel/autoparts');
     }
 
     /**
@@ -215,7 +207,7 @@ class AutopartController extends Controller
         $prudct = Product::find($autopart->product_data->id);
         $prudct->sold = true;
         $prudct->save();
-        session()->flash('status', 'La autoparte ha sido marcado como vendido');
+        session()->flash('status', 'La autoparte ha sido marcada como vendida');
         return redirect('panel/autoparts');
     }
 }

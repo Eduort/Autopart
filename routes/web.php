@@ -25,7 +25,11 @@ Route::get('/panel/products/approve/{product}', 'ProductController@approve')->na
 
 Route::get('/panel/cars/sold/{car}', 'CarController@sold')->middleware('auth');;
 
+Route::get('/panel/autoparts/sold/{autopart}', 'AutopartController@sold')->middleware('auth');;
+
 Route::get('/panel/cars/delete/{car}', 'CarController@delete')->name('cars.delete')->middleware('auth');;
+
+Route::get('/panel/autoparts/delete/{autopart}', 'AutopartController@delete')->name('autoparts.delete')->middleware('auth');;
 
 Route::resource('/panel/cars','CarController', [
 ])->middleware('auth');;

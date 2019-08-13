@@ -20,7 +20,9 @@
                                     <b>Marca: </b><span id="dataBrand"></span><br>
                                     <b>Año: </b><span id="dataYear"></span><br>
                                     <b>Precio: </b><span id="dataPrice"></span><br>
-                                    <b>Funciona: </b><span id="dataWorks"></span><br>
+                                    <b>Cantidad: </b><span id="dataQuantity"></span><br>
+                                    <b>Estado: </b><span id="dataState"></span><br>
+                                    <b>Tipo: </b><span id="dataType"></span><br>
                                 </div>
                             </div>
                             <br>
@@ -38,16 +40,6 @@
                         <div class="col-md-6">
                             <div class="card" style="font-size: 18px !important">
                                 <div class="card-header">
-                                    Datos de Partes
-                                </div>
-                                <div class="card-body" style="font-size: 15px">
-                                    <b>Venta de Partes: </b><span id="dataSellparts"></span><br>
-                                    <button style="width: 100%" type="button" id="dataBtnParts" class="btn btn-primary btn-sm">Ver Partes</button>
-                                </div>
-                            </div>
-                            <br>
-                            <div class="card" style="font-size: 18px !important">
-                                <div class="card-header">
                                    Descripción
                                 </div>
                                 <div class="card-body" style="font-size: 15px;height: 142px">
@@ -56,18 +48,8 @@
                             </div>
                         </div>
                         <br>
-
                     </div>
                     <br>
-                    <div class="card" style="font-size: 18px !important">
-                        <div class="card-header">
-                            Imagen
-                        </div>
-                        <div class="card-body" style="font-size: 15px">
-                            <img id="dataImage" class="img-fluid" style="height: 240px;width: 100%" src="" alt="Chania">
-                        </div>
-                    </div>
-
                 </div>
                 <div class="modal-footer">
                     <div  style="text-align: center;width: 100%">
@@ -88,21 +70,20 @@
         </div>
     @endif
 
-    <h3>Catalogo de Autos</h3>
+    <h3>Catalogo de Autopartes</h3>
 
     <div class="row">
         <div class="col-lg-12">
+            @if(count($autoParts))
                 <table class="table table-striped table-bordered">
                     <thead>
                     <tr>
-                        <th>Modelo</th>
-                        <th>Marca</th>
-                        <th>Año</th>
+                        <th>Para</th>
                         <th>Precio</th>
+                        <th>Tipo</th>
                         @if(Auth::user()->role==1)
                             <th style="width: 85px">Vendido</th>
                         @endif
-                        <th style="width: 150px">Imagen</th>
                         <th style="width: 110px">Detalle</th>
                         <!-- Si el usuario es administrador se muestran opciones adicionales -->
                         @if(Auth::user()->role==1)
@@ -112,76 +93,120 @@
                     </tr>
                     </thead>
                     <tbody>
-                   <!--  @foreach($cars as $car)
+                    @foreach($autoParts as $autoPart)
                         <tr>
-                            <td class="align-middle">{{$car->product_data->model}}</td>
-                            <td class="align-middle">{{$car->product_data->brand->name}}</td>
-                            <td class="align-middle">{{$car->product_data->year}}</td>
-                            <td class="align-middle">${{number_format($car->product_data->price, 2)}}</td>
+                            <td class="align-middle">{{$autoPart->product_data->brand->name. " ".$autoPart->product_data->model." ".$autoPart->product_data->year}}</td>
+                            <td class="align-middle">${{number_format($autoPart->product_data->price, 2)}}</td>
+                            @if($autoPart->autopart_category==0)
+                                <td class="align-middle">Espejos</td>
+                            @elseif($autoPart->autopart_category==1)
+                                <td class="align-middle" >Motor</td>
+                            @elseif($autoPart->autopart_category==2)
+                                <td class="align-middle" >Parabrisas</td>
+                            @elseif($autoPart->autopart_category==3)
+                                <td class="align-middle" >Electrónicos</td>
+                            @elseif($autoPart->autopart_category==4)
+                                <td class="align-middle" >Interiores</td>
+                            @elseif($autoPart->autopart_category==5)
+                                <td class="align-middle" >Sistemas de Transmisión</td>
+                            @endif
+
                             @if(Auth::user()->role==1)
                                 <td class="align-middle" style="text-align: center">
-                                    @if($car->product_data->sold==0)
+                                    @if($autoPart->product_data->sold==0)
                                         <span style="font-size: 14px" class="badge badge-danger">No</span>
                                     @else
                                         <span style="font-size: 14px" class="badge badge-success">Si</span>
                                     @endif
                                 </td>
                             @endif
-                            <td><img class="img-fluid" style="height: 75px" src="{{str_replace("index.php", "", url(''.$car->image))}}" alt="Imagen Auto"></td>
+
                             <td class="align-middle"><button type="button" class="btn btn-primary btn-sm"
-                                                             onclick="showData('{{$car->product_data->model}}',
-                                                                               '{{$car->product_data->brand->name}}',
-                                                                               '{{$car->product_data->year}}',
-                                                                               '{{number_format($car->product_data->price, 2)}}',
-                                                                               '{{$car->works}}',
-                                                                               '{{$car->product_data->seller}}',
-                                                                               '{{$car->product_data->phone}}',
-                                                                               '{{$car->sell_parts}}',
-                                                                               '{{$car->id}}',
-                                                                               '{{$car->product_data->description}}',
-                                                                               '{{$car->image}}')">
+                                                             onclick="showData('{{$autoPart->product_data->model}}',
+                                                                               '{{$autoPart->product_data->brand->name}}',
+                                                                               '{{$autoPart->product_data->year}}',
+                                                                               '{{number_format($autoPart->product_data->price, 2)}}',
+                                                                               '{{$autoPart->quantity}}',
+                                                                               '{{$autoPart->state}}',
+                                                                                '{{$autoPart->product_data->seller}}',
+                                                                                '{{$autoPart->product_data->phone}}',
+                                                                               '{{$autoPart->product_data->description}}',
+                                                                               '{{$autoPart->autopart_category}}'
+
+                                                                     )">
+
                                     Ver Detalle</button></td>
 
                             @if(Auth::user()->role==1)
-                                <td class="align-middle" style="width: 110px"><a role="button" href="{{route('cars.edit', $car->id)}}" style="width: 90px" class="btn btn-primary btn-sm">Editar</a></td>
-                                <td class="align-middle" style="width: 110px"><a role="button" href="{{route('cars.delete', $car->id)}}" style="width: 90px" class="btn btn-primary btn-sm">Eliminar</a></td>
+                                <td class="align-middle" style="width: 110px"><a role="button" href="{{route('autoparts.edit', $autoPart->id)}}" style="width: 90px" class="btn btn-primary btn-sm">Editar</a></td>
+                                <td class="align-middle" style="width: 110px"><a role="button" href="{{route('autoparts.delete', $autoPart->id)}}" style="width: 90px" class="btn btn-primary btn-sm">Eliminar</a></td>
                             @endif
                         </tr>
-                    @endforeach -->
+                    @endforeach
                     </tbody>
                 </table>
-                <h4>No hay ningún auto registrado. Visite la <strong><a href="{{url('panel/autoparts/create')}}">Pagina de Creación</a></strong> para agregar autos.</h4>
-            
+            @else
+                <h4>No hay ningúna autoparte registrada. Visite la <strong><a href="{{url('panel/autoparts/create')}}">Pagina de Creación</a></strong> para agregar autopartes.</h4>
+            @endif
         </div>
     </div>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script>
-        //Carga la ruta de las imagenes en una variable de JS.
-       /*  var baseImageUrl =  '<?php echo str_replace("index.php", "", url(''))?>';
 
-        function showData(model,brand,year,price,works,seller,phone,sell_parts,car_id,description, image) {
+        function showData(model,brand,year,price,quantity,state,seller,phone,description, type) {
+
+            var txtState;
+            if(state==='0')
+            {
+                txtState = "Nuevo";
+            }
+            else
+            {
+                txtState = "Usado";
+            }
+
+            var txtType;
+            if(type==='0')
+            {
+                txtType = "Espejos";
+            }
+            else if (type==='1')
+            {
+                txtType = "Motor";
+            }
+            else if (type==='2')
+            {
+                txtType = "Parabrisas";
+            }
+            else if (type==='3')
+            {
+                txtType = "Electrónicos";
+            }
+            else if (type==='4')
+            {
+                txtType = "Interiores";
+            }
+            else if (type==='5')
+            {
+                txtType = "Sistemas de Transmisión";
+            }
 
             //Se cargan los datos en el modal.
             document.getElementById("dataModel").innerHTML=model;
             document.getElementById("dataBrand").innerHTML=brand;
             document.getElementById("dataYear").innerHTML=year;
             document.getElementById("dataPrice").innerHTML="$"+price;
-            document.getElementById("dataWorks").innerHTML= works ===  '0' ? 'No' : 'Si';
+            document.getElementById("dataQuantity").innerHTML=quantity;
             document.getElementById("dataSeller").innerHTML=seller;
             document.getElementById("dataPhone").innerHTML=phone;
-            document.getElementById("dataSellparts").innerHTML= sell_parts ===  '0' ? 'No' : 'Si';
+            document.getElementById("dataState").innerHTML=txtState;
             document.getElementById("dataDescription").innerHTML=description;
-            document.getElementById("dataImage").src = baseImageUrl + image;
+            document.getElementById("dataType").innerHTML=txtType;
 
-            //Se verifica si las partes del auto estan disponibles para la venta.
-            if(sell_parts === '0')
-            {
-                document.getElementById("dataBtnParts").disabled = true;
-            }
 
             //Se muestra el modal.
             $('#dataModal').modal();
-        } */
+        }
     </script>
 @stop

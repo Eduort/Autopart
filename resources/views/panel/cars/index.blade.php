@@ -42,7 +42,6 @@
                                 </div>
                                 <div class="card-body" style="font-size: 15px">
                                     <b>Venta de Partes: </b><span id="dataSellparts"></span><br>
-                                    <button style="width: 100%" type="button" id="dataBtnParts" class="btn btn-primary btn-sm">Ver Partes</button>
                                 </div>
                             </div>
                             <br>

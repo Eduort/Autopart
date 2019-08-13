@@ -202,17 +202,8 @@ class CarController extends Controller
         $car->sell_parts = request('sell_parts');
         $car->save();
 
-        if(request('sell_parts')==0||request('sell_parts')==false)
-        {
-            session()->flash('status', 'El Auto ha sido actualizado correctamente');
-
-            return redirect('/panel/cars');
-        }
-        else
-        {
-            session()->flash('status', 'Auto registrado, proceda a registrar las autopartes correspondientes');
-            return redirect('/panel/autoparts/create');
-        }
+        session()->flash('status', 'El Auto ha sido actualizado correctamente');
+        return redirect('/panel/cars');
     }
 
     /**
