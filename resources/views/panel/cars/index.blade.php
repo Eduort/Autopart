@@ -175,12 +175,6 @@
             document.getElementById("dataDescription").innerHTML=description;
             document.getElementById("dataImage").src = baseImageUrl + image;
 
-            //Se verifica si las partes del auto estan disponibles para la venta.
-            if(sell_parts === '0')
-            {
-                document.getElementById("dataBtnParts").disabled = true;
-            }
-
             //Se muestra el modal.
             $('#dataModal').modal();
         }
